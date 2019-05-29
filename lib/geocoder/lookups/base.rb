@@ -43,7 +43,7 @@ module Geocoder
       #
       def search(query, options = {})
         query = Geocoder::Query.new(query, options) unless query.is_a?(Geocoder::Query)
-        results(query).map{ |r|
+        results(query).reject { |result| result["partial_match"] == true }.map{ |r|
           result = result_class.new(r)
           result.cache_hit = @cache_hit if cache
           result
